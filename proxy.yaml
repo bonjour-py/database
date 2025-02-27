@@ -1,0 +1,13 @@
+tcp:
+  services:
+    database:
+      loadBalancer:
+        servers:
+          - address: host.containers.internal:30100
+  routers:
+    database: 
+      entryPoints: database
+      tls:
+        certResolver: default
+      rule: HostSNI(`database.bonjour.zone`) || HostSNIRegexp(`^host.containers.internal$`)
+      service: database
